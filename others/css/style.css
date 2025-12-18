@@ -1,0 +1,623 @@
+/* --- Global Reset & Variables --- */
+:root {
+    --primary-color: #007BFF;
+    --primary-hover: #0056b3;
+    --sidebar-bg: #1a1a1a;
+    --sidebar-text: #f4f4f4;
+    --bg-light: #f9f9f9;
+    --text-dark: #333;
+    --sidebar-width: 260px; /* Defined width for easy adjustment */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-dark);
+    background-color: var(--bg-light);
+    scroll-behavior: smooth;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: 0.3s;
+}
+
+h1, h2, h3 {
+    margin-bottom: 1rem;
+    color: #222;
+}
+
+/* --- Sidebar Navigation (Fixed Left) --- */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    padding-top: 30px;
+    z-index: 1000;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+/* Sidebar Top: Name & Icons */
+.top-section {
+    text-align: center;
+    padding: 0 20px;
+    margin-bottom: 20px;
+}
+
+.top-section h1 {
+    color: #fff;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.social-icons a {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #333;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 0.9rem;
+}
+
+.social-icons a:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-3px);
+}
+
+/* Sidebar Navigation Links */
+.main-nav {
+    flex-grow: 1; 
+    width: 100%;
+}
+
+.main-nav ul {
+    list-style: none;
+    width: 100%;
+}
+
+.main-nav a {
+    display: flex;
+    align-items: center;
+    padding: 15px 30px;
+    color: #bbb;
+    font-size: 1rem;
+    border-left: 4px solid transparent;
+}
+
+.main-nav a i {
+    width: 25px; 
+    margin-right: 15px;
+    text-align: center;
+}
+
+.main-nav a:hover,
+.main-nav a.active { /* 'active' class for JS-based highlight */
+    background-color: #262626;
+    color: #fff;
+    border-left: 4px solid var(--primary-color);
+}
+
+.sidebar-footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 0.8rem;
+    color: #777;
+}
+
+/* --- Main Content Area --- */
+.main-content {
+    margin-left: var(--sidebar-width); /* Pushes content right */
+    padding: 0;
+    min-height: 100vh;
+}
+
+/* --- Uniform Section Spacing --- */
+section {
+    /* Reduced top/bottom padding from 60px to 40px */
+    /* Left/Right padding stays 40px for desktop */
+    padding: 40px 40px; 
+    
+    /* min-height ensures sections still feel substantial */
+    min-height: auto; 
+    border-bottom: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* --- Tighten Heading Spacing --- */
+section h2 {
+    font-size: 2rem;
+    /* Reduced from 40px to 20px to bring content closer to the title */
+    margin-bottom: 20px; 
+    position: relative;
+    display: inline-block;
+}
+
+/* Special Case: Hero Section */
+/* We keep the Home section full-screen so it doesn't look cramped */
+.hero-section {
+    min-height: 100vh;
+    padding: 0 20px;
+}
+
+/* --- Responsive Spacing (Mobile) --- */
+@media (max-width: 768px) {
+    section {
+        /* Even smaller gaps for mobile screens */
+        padding: 30px 20px;
+    }
+    
+    section h2 {
+        margin-bottom: 15px;
+    }
+}
+/* --- HERO SECTION (Using HTML <img> Tag) --- */
+.hero-section {
+    position: relative; /* Set context for absolute positioning */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #ffffff; /* Default text color is white */
+    padding: 0 20px;
+    overflow: hidden; /* Important to contain the absolute image */
+}
+
+/* <img> Tag Positioning */
+.hero-background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Equivalent to background-size: cover */
+    z-index: 1; /* Place image underneath the overlay and text */
+}
+
+/* Dark Overlay Layer (to make text readable) */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark semi-transparent color */
+    z-index: 2; /* Place overlay above the image (1) */
+}
+
+/* Ensure Text is on Top of the Image and Overlay */
+.hero-text {
+    position: relative; /* Essential to lift the text above the overlay (z-index 2) */
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Text visibility styles */
+.hero-text h1, 
+.hero-text h2, 
+.hero-text p {
+    color: #ffffff !important; /* Forces white text visibility */
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5); 
+}
+
+/* ... (Keep the rest of the styling for .name-text, .auto-type, etc.) ... */
+/* Typing Animation Styles */
+.auto-type {
+    color: var(--primary-color); /* Highlight color for the dynamic word */
+    font-weight: bold;
+}
+
+.typed-cursor {
+    color: var(--primary-color);
+    font-size: 4rem; /* Matches your H1 size */
+    opacity: 1; /* Ensure cursor is visible */
+}
+
+/* Buttons */
+.btn-primary, .btn-secondary {
+    display: inline-block;
+    padding: 10px 25px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn-secondary {
+    background-color: #444;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #222;
+}
+
+/* Skills Section */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.skill {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.skill i {
+    font-size: 2rem;
+    color: #007BFF;
+    margin-bottom: 10px;
+}
+
+.skill span {
+    display: block;
+    margin-top: 5px;
+    font-weight: 600;
+}
+
+.skill:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+
+/* --- Redesigned Portfolio Section --- */
+.portfolio-grid {
+    display: grid;
+    /* 3 columns on desktop by default */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 25px; /* Equal spacing between images */
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.portfolio-item {
+    background: #fff;
+    border-radius: 12px; /* Professional rounded corners */
+    overflow: hidden; /* Ensures image doesn't bleed out of corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+}
+
+.portfolio-item img {
+    width: 100%;
+    height: 250px; /* Fixed height for uniformity */
+    object-fit: cover; /* Prevents image stretching */
+    display: block;
+}
+
+/* Hover Effect */
+.portfolio-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* --- Responsive Adjustments --- */
+
+/* Tablet: 2 columns */
+@media (max-width: 1024px) {
+    .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+/* Mobile: 1 column */
+@media (max-width: 600px) {
+    .portfolio-grid {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 15px;
+    }
+    
+    .portfolio-item img {
+        height: 200px; /* Slightly smaller height for mobile */
+    }
+}
+
+
+
+/* --- Seamless Testimonials Slider --- */
+.testimonials-slider {
+    background-color: var(--bg-light);
+    overflow: hidden; /* Hides the scrollbar */
+    padding: 80px 0;
+}
+
+.testimonial-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 20px 0;
+}
+
+.testimonial-track {
+    display: flex;
+    width: max-content; /* Critical: allows children to stay in one line */
+    gap: 30px;
+    will-change: transform; /* Performance optimization for scrolling */
+}
+
+/* Testimonial Card Design */
+.testimonial-card {
+    background: #fff;
+    width: 350px; /* Fixed width for consistent scrolling speed */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    flex-shrink: 0; /* Prevents cards from squishing */
+    border-left: 4px solid var(--primary-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.t-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.t-profile img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.t-profile h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-dark);
+}
+
+.t-profile span {
+    font-size: 0.85rem;
+    color: #777;
+}
+
+.testimonial-card p {
+    font-style: italic;
+    color: #555;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+    .testimonial-card {
+        width: 280px; /* Smaller cards for mobile */
+        padding: 20px;
+    }
+    
+    .testimonial-track {
+        gap: 20px;
+    }
+}
+
+/* --- Contact Social Icons Section --- */
+.contact-socials {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.social-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: var(--text-dark);
+}
+
+.social-box i {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.social-box span {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Hover Effects with Brand Colors */
+.social-box:hover {
+    transform: translateY(-8px);
+    color: #fff !important;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.social-box.twitter:hover { background-color: #000000; }
+.social-box.facebook:hover { background-color: #1877F2; }
+.social-box.linkedin:hover { background-color: #0A66C2; }
+.social-box.telegram:hover { background-color: #26A5E4; }
+.social-box.email:hover { background-color: var(--primary-color); }
+
+/* --- Mobile Adjustments --- */
+@media (max-width: 600px) {
+    .social-box {
+        width: 45%; /* Shows 2 icons per row on mobile */
+    }
+}
+
+/* Mobile Footer */
+.mobile-footer {
+    display: none;
+    text-align: center;
+    padding: 20px;
+    background: #333;
+    color: white;
+}
+
+/* --- Responsive Design (Mobile) --- */
+@media (max-width: 768px) {
+    /* Change Sidebar to Topbar */
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative; /* Not fixed */
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        flex-wrap: wrap;
+    }
+
+    .top-section {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 0;
+        padding: 0;
+    }
+
+    .top-section h1 {
+        font-size: 1.5rem;
+        margin: 0;
+    }
+
+    .social-icons {
+        gap: 5px;
+    }
+
+    .main-nav {
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    .main-nav ul {
+        display: flex;
+        overflow-x: auto; /* Horizontal scroll for links */
+        white-space: nowrap;
+        padding-bottom: 5px;
+        flex-direction: row;
+    }
+
+    .main-nav a {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+        border-left: none;
+        border-bottom: 3px solid transparent;
+        flex-direction: column; /* Icon above text */
+        gap: 5px;
+    }
+    
+    .main-nav a i {
+        margin-right: 0;
+    }
+
+    .main-nav a:hover,
+    .main-nav a.active {
+        border-left: none;
+        border-bottom: 3px solid var(--primary-color);
+        background-color: transparent;
+    }
+
+    .sidebar-footer {
+        display: none; 
+    }
+
+    /* Adjust Content Layout */
+    .main-content {
+        margin-left: 0;
+    }
+
+    section {
+        padding: 40px 20px;
+    }
+
+    .hero-text h1 {
+        font-size: 2.5rem;
+    }
+
+    .mobile-footer {
+        display: block;
+    }
+}
+
+/* --- Resume Download Button --- */
+.resume-download-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background-color: var(--primary-color); /* Uses your blue theme color */
+    color: #ffffff !important;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-top: 15px;
+    transition: 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    width: fit-content;
+}
+
+.resume-download-link i {
+    font-size: 1.2rem;
+}
+
+.resume-download-link:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.resume-download-link span {
+    letter-spacing: 0.5px;
+}
